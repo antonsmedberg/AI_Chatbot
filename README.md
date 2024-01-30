@@ -1,6 +1,6 @@
 # AI ChatBot Project
 
-![ChatBot Demo]([link_to_demo_gif_or_screenshot.gif](https://github.com/antonsmedberg/AI_Chatbot/assets/83426503/6aa42e5a-d0a8-46d4-b486-eac1b6542bf1)
+![ChatBot Demo](https://github.com/antonsmedberg/AI_Chatbot/assets/83426503/6aa42e5a-d0a8-46d4-b486-eac1b6542bf1)
 
 ## Overview
 
@@ -18,5 +18,4 @@ Follow these instructions to get your AI ChatBot up and running on your local ma
 ### Prerequisites
 
 - [List any software or libraries that need to be installed]
-
 
