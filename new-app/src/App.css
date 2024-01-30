@@ -1,0 +1,66 @@
+/* Reset Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa; /* Light background for better contrast */
+}
+
+/* App Container Styles */
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px; /* Added padding for spacing */
+}
+
+/* Header Styles */
+.App-header {
+  background-color: #282c34;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(14px + 2vmin); /* Increased font size for better readability */
+}
+
+/* Logo Styles */
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  animation: App-logo-spin infinite 20s linear;
+  transition: transform 0.3s ease; /* Added smooth transition effect */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/* Link Styles */
+.App-link {
+  color: #61dafb;
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Make it bold for emphasis */
+  transition: color 0.3s ease; /* Added smooth transition effect */
+}
+
+/* Keyframes for Animations */
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effect for links */
+.App-link:hover {
+  color: #f2f2f2; /* Improved hover effect color */
+}
+
