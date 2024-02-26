@@ -5,16 +5,13 @@ import MessageList from './MessageList';
 import InputArea from './InputArea';
 import robotIcon from '../assets/robot-icon.avif';
 
-// Define the type for chat messages
-interface ChatMessage {
-  text: string;
-  isUser: boolean;
-  profileImage?: string;
-  timestamp: string;
-}
-
-const socket = io('http://localhost:5000');
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
+const socket = io(SOCKET_URL);
 const NavbarHeight = '10px';
+
+
+
+
 
 const ChatContainer = styled.div`
 // Enhanced ChatContainer styles
@@ -48,44 +45,53 @@ const MainContent = styled.div<MainContentProps>`
   position: relative;
 `;
 
-
+// Define the type for chat messages
+interface ChatMessage {
+  text: string;
+  isUser: boolean;
+  profileImage?: string;
+  timestamp: string;
+}
 
 const ChatComponent: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const [isSidebarOpen] = useState<boolean>(true); // Managing the sidebar state
 
+  useEffect(() => {
+    // Listening for incoming messages
+    const handleNewMessage = (msg: ChatMessage) => {
+      setChat((prevChat) => [...prevChat, { ...msg, timestamp: new Date().toLocaleTimeString() }]);
+    };
+    socket.on('chat', handleNewMessage);
 
+    // Example conversation starter
+    setChat([{
+      text: 'Hello! How can I help you today?',
+      isUser: false,
+      profileImage: robotIcon,
+      timestamp: new Date().toLocaleTimeString(),
+    }]);
 
+    return () => {
+      socket.off('chat', handleNewMessage);
+    };
+  }, []);
 
   const sendChat = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
-      socket.emit('chat', { text: message, isUser: true });
+      // Emitting a chat message
+      const newMessage: ChatMessage = {
+        text: message,
+        isUser: true,
+        timestamp: new Date().toLocaleTimeString()
+      };
+      socket.emit('chat', newMessage);
+      setChat((prevChat) => [...prevChat, newMessage]);
       setMessage('');
     }
   };
-
-  useEffect(() => {
-    socket.on('chat', (msg: ChatMessage) => {
-      setChat((prevChat) => [...prevChat, msg]);
-    });
-
-    const fakeConversation = [
-      {
-        text: 'Hello!',
-        isUser: false,
-        profileImage: robotIcon,
-        timestamp: new Date().toLocaleTimeString(),
-      },
-    ];
-
-    setChat(fakeConversation);
-
-    return () => {
-      socket.off('chat');
-    };
-  }, []);
 
   return (
     <ChatContainer>
@@ -95,11 +101,13 @@ const ChatComponent: React.FC = () => {
           message={message}
           setMessage={setMessage}
           sendChat={sendChat}
-          isSidebarOpen={isSidebarOpen} // Passing the prop to InputArea
+          isSidebarOpen={isSidebarOpen} // Added missing prop
         />
       </MainContent>
     </ChatContainer>
   );
 };
+
+
 
 export default ChatComponent;
